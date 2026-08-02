@@ -1,143 +1,173 @@
 ---
-name: zen-of-search
-description: Select and combine available search, retrieval, extraction, repository, and browsing tools for external information acquisition. Use when a task requires current facts, source discovery, URL reading, structured lookup, difficult-page acquisition, website exploration, or independent verification. Start from the information gap, use one primary tool, and add another only when it performs a distinct stage better.
+name: zen-of-search 
+description: Select and combine Exa, Tavily, AnySearch, and Firecrawl for general-purpose external information retrieval. Use when a task requires current facts, web discovery, source finding, URL reading, fact verification, parallel lookup, or website exploration. Match the question to each MCP's strengths, start with the most suitable tool, and combine tools only when they solve different parts of the search problem.
 ---
 
 # Zen of Search
 
 Search is the reduction of uncertainty through evidence.
 
+Before choosing a tool, ask:
+
+1. Is the target precisely known or only semantically describable?
+2. Does freshness or exact filtering matter?
+3. Is the information structured or repeated across several entities?
+4. Is finding the source difficult, or is acquiring its content difficult?
+
 Use the shortest reliable path from the question to an inspected source.
 
-## Read the Retrieval Shape
+## Work With the Available Environment
 
-Before choosing a tool, determine:
+Use the MCP tools available in the current environment and treat their current schemas as authoritative.
 
-1. Is the target known precisely or only describable by meaning?
-2. Do freshness, exact phrases, dates, domains, geography, or filters matter?
-3. Is the information structured or repeated across several entities?
-4. Is discovery difficult, or is acquiring the source content difficult?
-5. Does the claim require an original source, an independent check, or a counterexample?
+When the information already exists in an accessible repository, document collection, connected service, or local file, prefer the direct source tool.
 
-Let the information gap choose the capability. Tool names and schemas in the current environment are authoritative.
+## Know the Tools
 
-## Choose by Capability
+### Exa — discover by meaning
 
-### Semantic discovery
+Use Exa when the desired source is easier to describe than to name.
 
-Use a semantic search capability when the desired source is easier to describe than to name.
+It is well suited to unknown projects, similar products, niche articles, companies, people, technical approaches, and exploration before the correct terminology is known.
 
-Best for unknown projects, similar products, niche articles, companies, people, technical approaches, and early exploration before the correct terminology is known.
+Describe the ideal source in natural language, form a candidate set, and inspect the strongest results.
 
-Describe the ideal source: what it discusses, what type of page it is, and why it would be relevant. Form a small candidate set, then inspect the strongest originals.
+Exa answers:
 
-When available, Exa commonly fits this role.
+> **Where might the relevant knowledge be?**
 
-### Precise and fresh retrieval
+### Tavily — retrieve with precision and freshness
 
-Use a precise web-search capability when the target is clear and current relevance, dates, exact phrases, domain filters, or geographic filters matter.
+Use Tavily when the target is clear and current relevance, dates, exact phrases, domains, geography, or filters matter.
 
-Best for current events, releases, prices, schedules, named facts, policies, and version-sensitive information.
+It is well suited to recent events, releases, prices, schedules, named facts, and focused search–extract workflows.
 
-Prefer native filters over increasingly long queries. After discovery, inspect the canonical source rather than relying on result summaries.
+Prefer native filters over increasingly complicated queries. After discovery, inspect the strongest canonical source.
 
-When available, Tavily commonly fits this role.
+Tavily answers:
 
-### Structured and parallel lookup
+> **What currently and precisely matches the question?**
 
-Use a structured or vertical search capability when the question maps to known records or contains several independent lookups.
+### AnySearch — retrieve by structure and multiplicity
 
-Best for CVEs, tickers, DOIs, patents, academic records, travel data, identifiers, and repeated comparisons across entities.
+Use AnySearch when the question maps to a supported vertical domain or contains several independent lookups.
 
-Inspect the tool schema first. Batch independent queries when supported, but not when later queries depend on earlier findings.
+It is well suited to identifiers and structured subjects such as CVEs, tickers, DOIs, patents, academic records, travel data, and comparisons across entities.
 
-When available, AnySearch commonly fits this role.
+Inspect the available schema and batch independent queries when doing so reduces work.
 
-### Source acquisition
+AnySearch answers:
 
-Use an extraction or crawling capability when obtaining usable source content is the difficult part.
+> **Can this problem be expressed as structured or parallel queries?**
 
-Best for dynamic pages, PDFs, tables, screenshots, structured extraction, site mapping, and bounded multi-page collection.
+### Firecrawl — acquire the source itself
 
-Use a single-page operation for a known URL, site mapping when the relevant path is unknown, and crawling only when several pages are genuinely necessary.
+Use Firecrawl when obtaining usable source content is the difficult part.
 
-When available, Firecrawl commonly fits this role.
+It is well suited to dynamic pages, PDFs, tables, screenshots, structured extraction, site mapping, and bounded crawling.
 
-### Repository and document inspection
+Use scrape for a known page, map when the relevant path is unknown, and crawl only when several pages are genuinely required.
 
-Use repository, documentation, file, or local-code tools when the fact lives in a project rather than the open web.
+Firecrawl answers:
 
-Prefer official documentation for contracts, repository source and tests for implementation, issues and pull requests for behavioral history, and local code or logs for the user's actual environment.
+> **How can the source be reliably acquired and transformed?**
 
-Do not route project-internal evidence through generic web search when a direct connector or local tool is available.
+## Route and Combine
 
-## Combine Across Stages
+Choose the primary tool according to the dominant difficulty:
 
-Tools may overlap. Start with the capability that addresses the dominant difficulty, then add another only for a distinct job.
+| Need                                  | Start with |
+| ------------------------------------- | ---------- |
+| Unknown source or fuzzy concept       | Exa        |
+| Current, exact, or filterable fact    | Tavily     |
+| Structured record or several entities | AnySearch  |
+| Difficult page or website structure   | Firecrawl  |
+
+These tools overlap. Do not assign them rigid territories.
+
+Let the question determine the first tool, then let the remaining information gap determine whether another is needed.
+
+Common combinations include:
 
 ```text
-semantic discovery
-→ select candidate URLs
-→ acquire difficult sources
+Semantic discovery:
+Exa
+→ select sources
+→ fetch directly or use Firecrawl for difficult pages
 
-precise lookup
-→ open the canonical source
-→ verify the exact claim
+Fresh factual lookup:
+Tavily
+→ canonical source
+→ inspect the relevant content
 
-structured batch lookup
-→ select material results
-→ inspect original records
+Structured lookup:
+AnySearch
+→ select important results
+→ inspect original sources
 
-website investigation
-→ map paths
-→ scrape selected pages
+Website investigation:
+map
+→ select paths
+→ scrape
 → crawl only if necessary
 
-claim verification
-→ inspect the likely primary source
-→ seek an independent source, limitation, or contradiction when warranted
+Independent verification:
+likely answer
+→ primary source
+→ independent evidence, limitation, or contradiction
 ```
 
-Do not repeat the same query across providers merely to collect more links.
+A second tool should perform a different job.
 
-## Follow a Small Loop
+Do not repeat the same search across providers merely to collect more links.
 
-1. State the exact information gap.
-2. Choose one primary capability.
-3. Retrieve a small candidate set, usually three to eight results.
-4. remove duplicates, mirrors, syndicated copies, and low-value summaries;
-5. inspect the strongest original sources;
-6. add a complementary tool only when coverage is weak, content cannot be acquired, structured retrieval reduces work, or a consequential claim needs independent verification;
-7. stop when evidence is sufficient and expose material uncertainty.
+## Follow a Small Search Loop
 
-Search snippets locate evidence; they are not evidence themselves.
+1. Identify the exact information gap.
+2. Choose the most suitable primary tool.
+3. Retrieve a small candidate set.
+4. Remove duplicates, mirrors, and low-value summaries.
+5. Inspect the strongest original sources.
+6. Expand, switch, or combine tools only when the remaining gap justifies it.
+7. Stop when further searching is unlikely to change the answer.
 
-## Use Sources Close to the Fact
+Spend effort on the unknowns most likely to affect the result rather than researching every aspect equally.
 
-Prefer, as appropriate:
+## Match Sources to Claims
 
-1. official documentation, repositories, standards, datasets, filings, and first-party records;
+Prefer sources close to the underlying fact:
+
+1. official documentation, source repositories, standards, datasets, filings, and first-party records;
 2. maintainers, authors, researchers, institutions, and direct participants;
 3. reputable independent reporting and technical analysis;
 4. community discussions and secondary summaries.
 
-This is not a universal ranking. Match the source to the claim: code can outrank documentation for actual behavior, and direct incident reports can reveal failures absent from official descriptions.
+This is not a universal ranking.
+
+Match the source to the claim. Official documentation may establish an intended contract, while source code, tests, measurements, or direct incident reports may better establish actual behavior.
+
+Use secondary sources to discover, explain, compare, or challenge stronger evidence.
+
+Search snippets locate evidence; they are not evidence by themselves.
 
 ## Keep the Discipline
 
-- Start with one provider or capability; two are enough for most researched answers.
-- Use a third only for a consequential dispute or clear coverage gap.
-- Batch independent queries and URLs when supported.
-- Do not fetch every result.
-- Use native filters before multiplying queries.
-- Map before crawling, and bound every crawl.
-- Escalate acquisition gradually.
-- Search for limitations or contradictions when a claim is important or surprising.
-- Do not retry the same failed strategy indefinitely.
+- Start with the tool that best matches the dominant uncertainty.
+- Add another provider only when it contributes a different capability.
+- Batch independent work, but keep dependent searches sequential.
 - Prefer a few inspected sources over many shallow results.
-- Stop when further searching is unlikely to change the conclusion.
-- Answer the user's question directly; do not narrate routine tool calls.
+- Use native filters before multiplying queries.
+- Map before crawling and keep crawls bounded.
+- Escalate acquisition gradually rather than starting with the heaviest method.
+- Look for limitations or contradictions when a claim is important or surprising.
+- Trace repeated claims to their original source when independence matters.
+- Do not repeat a failed strategy without changing the approach.
+- Cite sources actually inspected.
 - Distinguish sourced facts from inference and judgment.
+
+Search is sufficient when the main uncertainty is resolved, important claims are supported, and another plausible search is unlikely to change the conclusion.
+
+When code inspection, experimentation, measurement, or user input would provide more value than further retrieval, stop searching and move to that step.
 
 ## The Way
 
