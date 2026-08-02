@@ -1,0 +1,36 @@
+{
+  "name": "just-in-time-research",
+  "version": "0.1.0",
+  "description": "Decision-oriented research skills that reduce uncertainty inside ongoing technical work.",
+  "author": {
+    "name": "Ttungx",
+    "url": "https://github.com/Ttungx"
+  },
+  "homepage": "https://github.com/Ttungx/just-in-time-research",
+  "repository": "https://github.com/Ttungx/just-in-time-research",
+  "license": "MIT",
+  "keywords": [
+    "research",
+    "deep-research",
+    "agent-skills",
+    "decision-making",
+    "search"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Just-in-Time Research",
+    "shortDescription": "Decision-ready research for active technical work.",
+    "longDescription": "Research important uncertainty inside an ongoing task, inspect evidence, form a project-specific judgment, and return to the work.",
+    "developerName": "Ttungx",
+    "category": "Productivity",
+    "capabilities": [
+      "Research"
+    ],
+    "websiteURL": "https://github.com/Ttungx/just-in-time-research",
+    "defaultPrompt": [
+      "Use $just-in-time-research to investigate this decision before implementation.",
+      "Use $just-in-time-research to verify the load-bearing claims in this plan.",
+      "Use $zen-of-search to find and inspect the canonical sources for this question."
+    ]
+  }
+}

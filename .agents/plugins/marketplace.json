@@ -1,0 +1,20 @@
+{
+  "name": "just-in-time-research",
+  "interface": {
+    "displayName": "Just-in-Time Research"
+  },
+  "plugins": [
+    {
+      "name": "just-in-time-research",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

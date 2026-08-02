@@ -1,0 +1,19 @@
+{
+  "name": "just-in-time-research",
+  "version": "0.1.0",
+  "description": "Decision-oriented research skills that reduce uncertainty inside ongoing technical work.",
+  "author": {
+    "name": "Ttungx",
+    "url": "https://github.com/Ttungx"
+  },
+  "homepage": "https://github.com/Ttungx/just-in-time-research",
+  "repository": "https://github.com/Ttungx/just-in-time-research",
+  "license": "MIT",
+  "keywords": [
+    "research",
+    "deep-research",
+    "agent-skills",
+    "decision-making",
+    "search"
+  ]
+}

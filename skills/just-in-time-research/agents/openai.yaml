@@ -1,0 +1,6 @@
+interface:
+  display_name: "Just-in-Time Research"
+  short_description: "Decision-ready research inside ongoing technical work"
+  default_prompt: "Use $just-in-time-research to investigate the uncertainty that matters to this task, form a judgment, and return to the work."
+policy:
+  allow_implicit_invocation: false

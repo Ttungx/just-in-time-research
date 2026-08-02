@@ -1,0 +1,20 @@
+{
+  "name": "just-in-time-research",
+  "owner": {
+    "name": "Ttungx"
+  },
+  "plugins": [
+    {
+      "name": "just-in-time-research",
+      "source": "./",
+      "description": "Decision-oriented research and capability-aware search for coding agents.",
+      "version": "0.1.0",
+      "author": {
+        "name": "Ttungx"
+      },
+      "skills": [
+        "./claude-skills/"
+      ]
+    }
+  ]
+}
