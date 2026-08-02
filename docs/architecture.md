@@ -105,9 +105,9 @@ Reasons:
 - the user is best positioned to decide when the task merits an explicit research episode;
 - manual invocation gives a clear boundary for deeper external investigation.
 
-Claude Code and Codex express manual invocation differently. Codex uses `policy.allow_implicit_invocation: false` in `agents/openai.yaml`. Codex plugin validation does not accept Claude's `disable-model-invocation: true` in the canonical skill, so the Claude marketplace exposes a thin wrapper under `claude-skills/` that applies the flag and then loads the canonical skill. The method remains single-source; only invocation metadata is platform-specific.
+The repository keeps one canonical Skill tree. The `just-in-time-research` instructions explicitly require user invocation on every host. Codex can additionally enforce this contract through `policy.allow_implicit_invocation: false` in `agents/openai.yaml`. Claude Code loads the same canonical Skill rather than a platform-specific copy.
 
-`zen-of-search` may remain implicitly available because it is a narrow retrieval skill and can serve ordinary current-information questions outside a full research episode.
+This trade-off keeps behavior single-source and portable. Host-specific policy is used only where it can be expressed without introducing a second implementation. `zen-of-search` may remain implicitly available because it is a narrow retrieval skill and can serve ordinary current-information questions outside a full research episode.
 
 ## Dynamic research control
 
@@ -200,8 +200,7 @@ One repository serves several hosts without duplicating runtime logic:
 
 ```text
 .claude-plugin/plugin.json          Claude Code plugin metadata
-.claude-plugin/marketplace.json     Claude Code marketplace and wrapper path
-claude-skills/*                     thin Claude invocation wrappers
+.claude-plugin/marketplace.json     Claude Code marketplace entry
 .codex-plugin/plugin.json           Codex plugin metadata
 .agents/plugins/marketplace.json    Codex marketplace entry
 skills/*                            canonical shared skills

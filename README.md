@@ -1,8 +1,10 @@
 # Just-in-Time Research
 
+**English** | [简体中文](README.zh-CN.md)
+
 **Research as part of thinking, not the end product.**
 
-Just-in-Time Research is a composable research plugin for coding agents. It activates only when the user explicitly asks for research, reduces the uncertainty that matters to the current task, forms an evidence-grounded judgment, and returns that understanding to the ongoing discussion, design, or implementation.
+Just-in-Time Research is a composable research plugin for coding agents. It activates when the user explicitly requests research, reduces the uncertainty that matters to the current task, forms an evidence-grounded judgment, and returns that understanding to the ongoing discussion, design, or implementation.
 
 The repository contains two cooperating skills:
 
@@ -43,7 +45,7 @@ The goal is not exhaustive coverage. The goal is enough reliable understanding t
 
 ## Design principles
 
-- **Manual activation.** `just-in-time-research` is not implicitly invoked.
+- **Manual activation.** `just-in-time-research` is intended to run only after explicit user invocation.
 - **Decision-oriented control.** Investigate the unknowns most likely to change the answer.
 - **Dynamic breadth and depth.** Do not use fixed source, query, or agent counts.
 - **Claim-level evidence.** A source matters only when it supports, contradicts, or limits a relevant claim.
@@ -63,10 +65,7 @@ The goal is not exhaustive coverage. The goal is enough reliable understanding t
 │   └── plugin.json
 ├── .agents/plugins/
 │   └── marketplace.json
-├── claude-skills/              # thin Claude-only invocation wrappers
-│   ├── just-in-time-research/SKILL.md
-│   └── zen-of-search/SKILL.md
-├── skills/                     # canonical shared skills
+├── skills/
 │   ├── just-in-time-research/
 │   │   ├── SKILL.md
 │   │   ├── agents/openai.yaml
@@ -82,7 +81,7 @@ The goal is not exhaustive coverage. The goal is enough reliable understanding t
     └── architecture.md
 ```
 
-The canonical `skills/` tree contains runtime instructions. `claude-skills/` contains thin wrappers only, allowing Claude Code to enforce manual invocation without forking the research method. References are loaded only when the current research episode needs them. `docs/` explains the design to human maintainers and is not part of the runtime protocol.
+There is one canonical `skills/` tree shared by Claude Code, Codex, and other Agent Skills hosts. Runtime behavior is maintained once. Platform manifests control discovery, presentation, and any host-specific policy that can be expressed without forking the skill content. References are loaded only when the current research episode needs them. `docs/` is for human maintainers and is not part of the runtime protocol.
 
 ## Install
 
@@ -101,7 +100,7 @@ Invoke the research skill explicitly:
 /just-in-time-research investigate whether this architecture should use Temporal
 ```
 
-`zen-of-search` remains available as a standalone skill and as the retrieval layer used by Just-in-Time Research.
+Claude Code loads the same canonical `skills/` tree as the other hosts. Explicit-only activation is stated directly in the `just-in-time-research` skill instructions; no Claude-specific copy is maintained.
 
 ### Codex
 
@@ -118,7 +117,7 @@ Invoke the skill explicitly:
 $just-in-time-research Investigate whether this architecture should use Temporal.
 ```
 
-The Codex metadata disables implicit invocation of `just-in-time-research`. The Claude marketplace entry uses a manual-only wrapper for the same canonical skill. `zen-of-search` may still be selected as a retrieval skill when appropriate.
+Codex additionally enforces manual invocation through `policy.allow_implicit_invocation: false` in `skills/just-in-time-research/agents/openai.yaml`.
 
 ### Install individual skills
 
