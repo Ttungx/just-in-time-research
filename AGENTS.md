@@ -16,6 +16,12 @@ There is one `skills/` tree. Do not add platform-specific copies of the Skill in
 
 Do not duplicate substantial guidance across files. Move detail to the narrowest relevant reference and keep the entry skill short.
 
+## Chinese mirror
+
+- `skills-zh/` is a local-use Chinese mirror, not part of the repo's distributable skill content. Never reference it in `.claude-plugin/` or `.codex-plugin/` manifests or in the canonical `skills/` tree.
+- Keep `skills-zh/just-in-time-research/` in sync whenever `skills/just-in-time-research/` changes: `SKILL.md`, `references/`, `agents/openai.yaml`.
+- Only `just-in-time-research` is mirrored for now; add other skills only when the user asks.
+
 ## Design constraints
 
 Preserve these decisions unless the project explicitly changes direction:

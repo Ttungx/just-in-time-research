@@ -1,0 +1,6 @@
+interface:
+  display_name: "即时研究（Just-in-Time Research）"
+  short_description: "在持续的技术工作中开展可决策的研究"
+  default_prompt: "使用 $just-in-time-research 调查本任务中的重要不确定性，形成判断，然后回到工作中。"
+policy:
+  allow_implicit_invocation: false
