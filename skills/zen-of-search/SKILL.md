@@ -1,181 +1,115 @@
 ---
-name: zen-of-search 
-description: Select and combine Exa, Tavily, AnySearch, and Firecrawl for general-purpose external information retrieval. Use when a task requires current facts, web discovery, source finding, URL reading, fact verification, parallel lookup, or website exploration. Match the question to each MCP's strengths, start with the most suitable tool, and combine tools only when they solve different parts of the search problem.
+name: zen-of-search
+description: Use this skill whenever a task depends on external information: web or current facts, source/project/paper discovery, reading known URLs, site exploration, or claim verification, even when the user does not explicitly say "search". Reduce uncertainty with the smallest sufficient retrieval surface, and combine complementary tools across stages instead of locking the whole task to one provider. Favor Exa for semantic discovery, Firecrawl CLI for acquisition and traversal, and Tavily as an optional precision or independent search path; adapt freely to equivalent capabilities in the current environment.
+compatibility: Works with equivalent search and retrieval tools. Firecrawl examples assume the Firecrawl CLI is installed and authenticated.
+
 ---
 
 # Zen of Search
 
-Search is the reduction of uncertainty through evidence.
+Search is not link collection. Reduce uncertainty until you have enough evidence to answer, decide, or continue the real task.
 
-Before choosing a tool, ask:
+## Shape the Information Gap
 
-1. Is the target precisely known or only semantically describable?
-2. Does freshness or exact filtering matter?
-3. Is the information structured or repeated across several entities?
-4. Is finding the source difficult, or is acquiring its content difficult?
+Identify what is missing before choosing a tool:
 
-Use the shortest reliable path from the question to an inspected source.
+- **Discovery** — find the right source, project, term, person, document, paper, or direction.
+- **Acquisition** — read, traverse, or extract information from a source you already know or have found.
+- **Verification** — test an important claim against stronger, fresher, or genuinely independent evidence.
 
-## Work With the Available Environment
+Treat freshness, exact identifiers, domain scope, language, geography, and source quality as constraints on those problems rather than separate workflows.
 
-Use the MCP tools available in the current environment and treat their current schemas as authoritative.
+## Compose Capabilities, Not Providers
 
-When the information already exists in an accessible repository, document collection, connected service, or local file, prefer the direct source tool.
+Choose the best capability for the **next information gap**, not one tool for the whole task. Non-trivial search work often benefits from handing evidence between complementary tools: discover broadly with one system, acquire the underlying source with another, then verify remaining uncertainty through an independent path.
 
-## Know the Tools
+Useful combinations include:
 
-### Exa — discover by meaning
+- **Exa → Firecrawl** — discover semantically, then read or traverse the strongest sources.
+- **Tavily → Firecrawl** — locate fresh or precisely filtered results, then inspect the underlying pages.
+- **Exa + Tavily → Firecrawl** — use independent discovery paths when verification matters, then ground the conclusion in the original sources.
 
-Use Exa when the desired source is easier to describe than to name.
+Do not invoke multiple tools merely for provider diversity. Combine them when each one resolves a different remaining uncertainty. A simple lookup may need one tool; a serious research task may naturally use several.
 
-It is well suited to unknown projects, similar products, niche articles, companies, people, technical approaches, and exploration before the correct terminology is known.
+## Keep a Loose Tool Map
 
-Describe the ideal source in natural language, form a candidate set, and inspect the strongest results.
+- **Exa — semantic discovery.** Prefer it when the target is easier to describe than to name, when related material matters, or when you are still learning the vocabulary of the problem.
+- **Firecrawl CLI — acquisition and traversal.** Prefer it when you need the source itself: page content, site structure, multiple pages, developer/research indexes, or browser interaction. Using the CLI avoids exposing a large persistent MCP tool surface.
+- **Tavily — precision or an independent path.** Use it when freshness, explicit filters, conventional web lookup, or a second retrieval path can add information that the current path lacks.
 
-Exa answers:
+These roles overlap. Follow capabilities rather than brands, and use an equivalent tool when the current environment offers a shorter or better route.
 
-> **Where might the relevant knowledge be?**
+## Firecrawl CLI Quick Reference
 
-### Tavily — retrieve with precision and freshness
+Use Firecrawl progressively; these are common primitives, not a mandatory pipeline.
 
-Use Tavily when the target is clear and current relevance, dates, exact phrases, domains, geography, or filters matter.
+```bash
+# General web search
+firecrawl search "query"
 
-It is well suited to recent events, releases, prices, schedules, named facts, and focused search–extract workflows.
+# Bound result count
+firecrawl search "query" --limit 10
 
-Prefer native filters over increasingly complicated queries. After discovery, inspect the strongest canonical source.
+# Recent news / time-bounded search
+firecrawl search "query" --sources news --tbs qdr:w
 
-Tavily answers:
+# Search and retrieve result content
+firecrawl search "query" --scrape
 
-> **What currently and precisely matches the question?**
+# Programming-oriented search: issues, merged PRs, READMEs, docs
+firecrawl search "query" --categories developer
 
-### AnySearch — retrieve by structure and multiplicity
+# Read a known page
+firecrawl scrape https://example.com
 
-Use AnySearch when the question maps to a supported vertical domain or contains several independent lookups.
+# Discover relevant URLs on a site
+firecrawl map https://example.com --search "docs"
 
-It is well suited to identifiers and structured subjects such as CVEs, tickers, DOIs, patents, academic records, travel data, and comparisons across entities.
+# Retrieve multiple pages when they are genuinely needed
+firecrawl crawl https://example.com --limit 50 --max-depth 2 --wait
 
-Inspect the available schema and batch independent queries when doing so reduces work.
+# Search the research-paper index
+firecrawl research search-papers "query" --limit 20
 
-AnySearch answers:
+# Inspect / expand / verify a strong paper
+firecrawl research inspect-paper <paper-id>
+firecrawl research related-papers <paper-id> --intent "question"
+firecrawl research read-paper <paper-id> --question "claim to verify"
 
-> **Can this problem be expressed as structured or parallel queries?**
+# Search GitHub issue / PR history and repository READMEs
+firecrawl research search-github "query" --limit 10
 
-### Firecrawl — acquire the source itself
+# Interact with the last scraped page when static retrieval is insufficient
+firecrawl interact "Extract the pricing table"
 
-Use Firecrawl when obtaining usable source content is the difficult part.
-
-It is well suited to dynamic pages, PDFs, tables, screenshots, structured extraction, site mapping, and bounded crawling.
-
-Use scrape for a known page, map when the relevant path is unknown, and crawl only when several pages are genuinely required.
-
-Firecrawl answers:
-
-> **How can the source be reliably acquired and transformed?**
-
-## Route and Combine
-
-Choose the primary tool according to the dominant difficulty:
-
-| Need                                  | Start with |
-| ------------------------------------- | ---------- |
-| Unknown source or fuzzy concept       | Exa        |
-| Current, exact, or filterable fact    | Tavily     |
-| Structured record or several entities | AnySearch  |
-| Difficult page or website structure   | Firecrawl  |
-
-These tools overlap. Do not assign them rigid territories.
-
-Let the question determine the first tool, then let the remaining information gap determine whether another is needed.
-
-Common combinations include:
-
-```text
-Semantic discovery:
-Exa
-→ select sources
-→ fetch directly or use Firecrawl for difficult pages
-
-Fresh factual lookup:
-Tavily
-→ canonical source
-→ inspect the relevant content
-
-Structured lookup:
-AnySearch
-→ select important results
-→ inspect original sources
-
-Website investigation:
-map
-→ select paths
-→ scrape
-→ crawl only if necessary
-
-Independent verification:
-likely answer
-→ primary source
-→ independent evidence, limitation, or contradiction
+# Check current flags and capabilities
+firecrawl <command> --help
 ```
 
-A second tool should perform a different job.
+A useful escalation intuition is `search → scrape → map → crawl → interact`: move deeper only when the current level cannot resolve the uncertainty, and skip levels freely.
 
-Do not repeat the same search across providers merely to collect more links.
+## Search for Information Gain
 
-## Follow a Small Search Loop
+Make each additional retrieval action answer a different remaining question. If a search stalls, diagnose what failed — query wording, source class, retrieval mode, page access, freshness, or the assumption behind the search — and change that dimension rather than repeating the same action elsewhere.
 
-1. Identify the exact information gap.
-2. Choose the most suitable primary tool.
-3. Retrieve a small candidate set.
-4. Remove duplicates, mirrors, and low-value summaries.
-5. Inspect the strongest original sources.
-6. Expand, switch, or combine tools only when the remaining gap justifies it.
-7. Stop when further searching is unlikely to change the answer.
+Treat search results and snippets as pointers. Inspect the underlying source before relying on a claim that carries the answer. Prefer evidence close to the underlying fact; use independent or community sources when they add implementation reality, contradiction, context, or triangulation.
 
-Spend effort on the unknowns most likely to affect the result rather than researching every aspect equally.
+Scale verification with consequence. Independence matters more than source count.
 
-## Match Sources to Claims
+## Stop at Sufficiency
 
-Prefer sources close to the underlying fact:
+Stop when the important uncertainty is resolved, the load-bearing claims have adequate support, and another plausible retrieval step is unlikely to change the conclusion.
 
-1. official documentation, source repositories, standards, datasets, filings, and first-party records;
-2. maintainers, authors, researchers, institutions, and direct participants;
-3. reputable independent reporting and technical analysis;
-4. community discussions and secondary summaries.
-
-This is not a universal ranking.
-
-Match the source to the claim. Official documentation may establish an intended contract, while source code, tests, measurements, or direct incident reports may better establish actual behavior.
-
-Use secondary sources to discover, explain, compare, or challenge stronger evidence.
-
-Search snippets locate evidence; they are not evidence by themselves.
-
-## Keep the Discipline
-
-- Start with the tool that best matches the dominant uncertainty.
-- Add another provider only when it contributes a different capability.
-- Batch independent work, but keep dependent searches sequential.
-- Prefer a few inspected sources over many shallow results.
-- Use native filters before multiplying queries.
-- Map before crawling and keep crawls bounded.
-- Escalate acquisition gradually rather than starting with the heaviest method.
-- Look for limitations or contradictions when a claim is important or surprising.
-- Trace repeated claims to their original source when independence matters.
-- Do not repeat a failed strategy without changing the approach.
-- Cite sources actually inspected.
-- Distinguish sourced facts from inference and judgment.
-
-Search is sufficient when the main uncertainty is resolved, important claims are supported, and another plausible search is unlikely to change the conclusion.
-
-When code inspection, experimentation, measurement, or user input would provide more value than further retrieval, stop searching and move to that step.
+If code inspection, local data, measurement, experimentation, or user input now has higher expected information value than another search, leave search and do that instead.
 
 ## The Way
 
 ```text
 Let the question reveal the retrieval shape.
-Let one tool handle one stage well.
-Combine tools only across distinct stages.
+Choose the next capability, not one provider for the whole task.
+Compose tools when their information value is complementary.
+Use the smallest sufficient search surface.
 Read the source, not merely the result.
-Verify in proportion to consequence.
-Stop when more searching no longer changes the answer.
+Escalate only while uncertainty remains.
+Stop when more retrieval is unlikely to change the answer.
 ```
