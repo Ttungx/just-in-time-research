@@ -1,6 +1,6 @@
 interface:
   display_name: "Zen of Search"
   short_description: "Capability-aware search and source acquisition"
-  default_prompt: "Use $zen-of-search to choose the shortest reliable path from this information gap to inspected evidence."
+  default_prompt: "Use $zen-of-search to reduce the current information gap with the smallest sufficient retrieval, then inspect the source."
 policy:
   allow_implicit_invocation: true

@@ -60,11 +60,10 @@ It answers:
 
 Owns the retrieval strategy:
 
-- identify whether the dominant difficulty is semantic discovery, precise fresh lookup, structured retrieval, source acquisition, or repository inspection;
-- choose the primary available tool;
-- combine tools only across distinct stages;
+- identify whether the gap is discovery, acquisition, or verification;
+- choose the best capability for the next gap and compose tools across distinct stages;
 - inspect original sources;
-- stop low-yield search.
+- stop when further retrieval is unlikely to change the answer.
 
 It answers:
 
@@ -190,7 +189,7 @@ The system contracts again when synthesis becomes more valuable than retrieval.
 
 The plugin bundles no MCP server and declares no mandatory provider dependency. Search tools change rapidly, and host environments differ.
 
-`zen-of-search` therefore reasons from capabilities first. It recognizes common strengths of tools such as Exa, Tavily, AnySearch, and Firecrawl when present, but the current tool schemas remain authoritative.
+`zen-of-search` therefore reasons from capabilities first. It favors Exa for semantic discovery, the Firecrawl CLI for acquisition and traversal, and Tavily as a precision or independent path when present, but the current tool schemas remain authoritative.
 
 Direct repository, document, and local-code connectors take precedence when the evidence lives there. Generic web search is not an abstraction layer over data that the Agent can inspect directly.
 

@@ -1,13 +1,13 @@
 ---
 name: zen-of-search
-description: Use this skill whenever a task depends on external information: web or current facts, source/project/paper discovery, reading known URLs, site exploration, or claim verification, even when the user does not explicitly say "search". Reduce uncertainty with the smallest sufficient retrieval surface, and combine complementary tools across stages instead of locking the whole task to one provider. Favor Exa for semantic discovery, Firecrawl CLI for acquisition and traversal, and Tavily as an optional precision or independent search path; adapt freely to equivalent capabilities in the current environment.
-compatibility: Works with equivalent search and retrieval tools. Firecrawl examples assume the Firecrawl CLI is installed and authenticated.
-
+description: Retrieve external information when a task needs current facts, source discovery, URL reading, site exploration, or claim verification, even without an explicit search request. Favor Exa for discovery, Firecrawl CLI for acquisition, Tavily as an independent path, compose tools across stages, inspect sources, stop at sufficiency.
 ---
 
 # Zen of Search
 
 Search is not link collection. Reduce uncertainty until you have enough evidence to answer, decide, or continue the real task.
+
+Works with equivalent search and retrieval tools. Firecrawl examples assume the Firecrawl CLI is installed and authenticated.
 
 ## Shape the Information Gap
 
